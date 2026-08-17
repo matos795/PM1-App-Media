@@ -36,10 +36,59 @@ class MainActivity : AppCompatActivity() {
         tvNotaFinal = findViewById(R.id.tvNotaFinal)
         tvSituacao = findViewById(R.id.tvSituacao)
 
+        btnCalcular.setOnClickListener {
+            calcular()
+        }
+
+        btnLimpar.setOnClickListener {
+            limpar()
+        }
+
+        btnSair.setOnClickListener {
+            sair()
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun calcular() {
+        var nota1 : Double
+        var nota2 : Double
+        var notaFinal : Double
+        var faltas : Int
+        var situacao : String
+
+        nota1 = etNota1.text.toString().toDouble()
+        nota2 = etNota2.text.toString().toDouble()
+        faltas = etFaltas.text.toString().toInt()
+        notaFinal = (nota1 + nota2) / 2
+
+        if(notaFinal >= 6 && faltas<=20) {
+            situacao = "Aprovado"
+        } else if(faltas > 20 || notaFinal < 4) {
+            situacao = "Reprovado"
+        } else {
+            situacao = "Exame"
+        }
+
+        tvNotaFinal.text = notaFinal.toString()
+        tvSituacao.text = situacao
+    }
+
+    private fun limpar() {
+        etNota1.setText("")
+        etNota2.setText("")
+        etFaltas.setText("")
+        tvNotaFinal.text = ""
+        tvSituacao.text = ""
+        etNota1.requestFocus()
+    }
+
+    private fun sair() {
+        finishAndRemoveTask()
     }
 }
